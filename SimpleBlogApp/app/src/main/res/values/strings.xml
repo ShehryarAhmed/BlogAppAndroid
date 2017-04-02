@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SimpleBlogApp</string>
+    <string name="add_icon">Add</string>
+    <string name="detail">detail</string>
 </resources>
