@@ -7,4 +7,5 @@
     <dimen name="album_title">15dp</dimen>
     <dimen name="songs_count_padding_bottom">5dp</dimen>
     <dimen name="songs_count">14sp</dimen>
+    <dimen name="image_height">200dp</dimen>
 </resources>

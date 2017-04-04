@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data class = "binding_post"></data>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.android.simpleblogapp.PostActivity">
+
+    <ImageButton
+        android:id="@+id/postImage"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/image_height"
+        android:background="@mipmap/ic_launcher"
+        android:scaleType="centerCrop"
+        tools:focusable="true" />
+
+    <EditText
+        android:id="@+id/postTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Title.."
+        android:inputType="textPersonName"
+        android:background="@drawable/input_outline"
+        android:textColor="@color/colorGray"
+        android:padding="20dp"
+       />
+
+    <EditText
+        android:id="@+id/postDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Description"
+        android:inputType="textMultiLine"
+        android:background="@drawable/input_outline"
+        android:padding="20dp"
+        android:textColor="@color/colorGray"
+        />
+<Button
+    android:id="@+id/postBtn"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:padding="10dp"
+    android:drawableBottom="@drawable/input_outline"
+    android:text="Post"/>
+
+</LinearLayout>
+</layout>
