@@ -1,5 +1,6 @@
 package com.example.android.simpleblogapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
@@ -13,6 +14,12 @@ import android.view.animation.Interpolator;
 import android.widget.Toast;
 
 import com.example.android.simpleblogapp.databinding.binding_post;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -22,12 +29,22 @@ public class PostActivity extends AppCompatActivity {
 
     private Uri imageUri = null;
 
+    private DatabaseReference mDatabase;
+
+    private StorageReference mStroaoge;
+
+    private ProgressDialog mProgress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bind_post = DataBindingUtil.setContentView(this,R.layout.activity_post);
-        bind_post.postImage.setOnClickListener(new View.OnClickListener() {
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("BLogs");
+        mStroaoge = FirebaseStorage.getInstance().getReference();
+
+        mProgress = new ProgressDialog(this);        bind_post.postImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -48,9 +65,30 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void sendPost() {
-        String title_val = bind_post.postTitle.getText().toString().trim();
-        String desc_val = bind_post.postDesc.getText().toString().trim();
+       final String title_val = bind_post.postTitle.getText().toString().trim();
+        final String desc_val = bind_post.postDesc.getText().toString().trim();
         if (!TextUtils.isEmpty(title_val) && !TextUtils.isEmpty(desc_val) && imageUri != null){
+            StorageReference filepath= mStroaoge.child("Blogs_images").child(imageUri.getLastPathSegment());
+
+            filepath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Uri downloadUri = taskSnapshot.getDownloadUrl();
+                    Toast.makeText(PostActivity.this, "post", Toast.LENGTH_SHORT).show();
+                    DatabaseReference newPost = mDatabase.push();
+
+                    newPost.child("title").setValue(title_val);
+                    newPost.child("desc").setValue(desc_val);
+                    newPost.child("imageUrl").setValue(downloadUri.toString());
+                    mProgress.dismiss();
+
+                    bind_post.postTitle.setText("");
+                    bind_post.postImage.setImageURI(null);
+                    bind_post.postDesc.setText("");
+
+                    startActivity(new Intent(PostActivity.this,MainActivity.class));
+                }
+            });
         }
 
     }
