@@ -16,20 +16,21 @@
         <ImageView
             android:id="@+id/blog_image"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
             android:background="@drawable/bgimage"
 
              />
 
-        <TextView
-            android:id="@+id/blog_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:textColor="@color/album_title"
-            android:textSize="16sp"
-            android:text="Title..."/>
+    <TextView
+        android:id="@+id/blog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contextClickable="false"
+        android:padding="15dp"
+        android:text="Title..."
+        android:textColor="@color/album_title"
+        android:textSize="16sp" />
 
         <TextView
             android:id="@+id/blog_desc"
