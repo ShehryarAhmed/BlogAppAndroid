@@ -9,6 +9,9 @@ public class BlogPost {
     private String title;
     private String description;
 
+    public BlogPost() {
+    }
+
     public BlogPost(int thumnail, String title, String description) {
         this.thumnail = thumnail;
         this.title = title;

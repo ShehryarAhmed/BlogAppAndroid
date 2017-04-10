@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+
 
     <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,7 +21,7 @@
             android:scaleType="fitXY" />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/blog_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/thumbnail"
@@ -34,7 +32,7 @@
             android:textSize="@dimen/album_title" />
 
         <TextView
-            android:id="@+id/count"
+            android:id="@+id/blog_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
@@ -43,4 +41,3 @@
             android:paddingRight="@dimen/album_title_padding"
             android:textSize="@dimen/songs_count" />
     </android.support.v7.widget.CardView>
-</LinearLayout>
