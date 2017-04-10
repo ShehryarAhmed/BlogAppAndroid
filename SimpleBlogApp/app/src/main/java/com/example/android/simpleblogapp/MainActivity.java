@@ -1,5 +1,6 @@
 package com.example.android.simpleblogapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.simpleblogapp.model.BlogPost;
@@ -16,6 +18,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(BlogsViewHolder blogsViewHolder, BlogPost blogPost, int i) {
 
-                blogsViewHolder.setTitleDesc(blogPost.getTitle(),blogPost.getDescription());
+                blogsViewHolder.setTitleDescImage(getApplicationContext(),blogPost.getTitle(),blogPost.getDescription(),blogPost.getThumnail());
             }
         };
         mRecyclerView.setAdapter(firebaseRecyclerAdapter);
@@ -60,11 +63,13 @@ public class MainActivity extends AppCompatActivity {
         mView = itemView;
         }
 
-        public void setTitleDesc(String title,String desc){
+        public void setTitleDescImage(Context ctx, String title, String desc, String image){
             TextView titleView = (TextView) itemView.findViewById(R.id.blog_title);
             titleView.setText(""+title);
             TextView descView = (TextView) itemView.findViewById(R.id.blog_desc);
             descView.setText(""+desc);
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.blog_image);
+            Picasso.with(ctx).load(image).into(imageView);
 
         }
 

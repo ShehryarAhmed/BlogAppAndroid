@@ -5,14 +5,14 @@ package com.example.android.simpleblogapp.model;
  */
 
 public class BlogPost {
-    private int thumnail;
+    private String thumnail;
     private String title;
     private String description;
 
     public BlogPost() {
     }
 
-    public BlogPost(int thumnail, String title, String description) {
+    public BlogPost(String thumnail, String title, String description) {
         this.thumnail = thumnail;
         this.title = title;
         this.description = description;
@@ -23,7 +23,7 @@ public class BlogPost {
         this.description = description;
     }
 
-    public int getThumnail() {
+    public String getThumnail() {
         return thumnail;
     }
 

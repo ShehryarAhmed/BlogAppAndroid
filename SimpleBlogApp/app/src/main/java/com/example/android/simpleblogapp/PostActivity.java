@@ -82,9 +82,6 @@ public class PostActivity extends AppCompatActivity {
                     newPost.child("imageUrl").setValue(downloadUri.toString());
                     mProgress.dismiss();
 
-                    bind_post.postTitle.setText("");
-                    bind_post.postImage.setImageURI(null);
-                    bind_post.postDesc.setText("");
 
                     startActivity(new Intent(PostActivity.this,MainActivity.class));
                 }
