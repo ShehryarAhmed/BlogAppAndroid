@@ -14,6 +14,7 @@ import android.view.animation.Interpolator;
 import android.widget.Toast;
 
 import com.example.android.simpleblogapp.databinding.binding_post;
+import com.example.android.simpleblogapp.model.BlogPost;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -77,9 +78,9 @@ public class PostActivity extends AppCompatActivity {
                     Toast.makeText(PostActivity.this, "post", Toast.LENGTH_SHORT).show();
                     DatabaseReference newPost = mDatabase.push();
 
-                    newPost.child("title").setValue(title_val);
-                    newPost.child("desc").setValue(desc_val);
-                    newPost.child("imageUrl").setValue(downloadUri.toString());
+                    BlogPost post = new BlogPost(title_val,desc_val,downloadUri.toString());
+
+                    newPost.setValue(post);
                     mProgress.dismiss();
 
 
