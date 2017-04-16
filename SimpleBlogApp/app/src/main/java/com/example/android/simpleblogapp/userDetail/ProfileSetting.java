@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.example.android.simpleblogapp.MainActivity;
 import com.example.android.simpleblogapp.R;
 import com.example.android.simpleblogapp.databinding.bindprofsetting;
 import com.google.firebase.database.DatabaseReference;
@@ -25,10 +27,9 @@ public class ProfileSetting extends AppCompatActivity {
 
     bindprofsetting bind;
 
-    private static final int GALLERY_REQUEST = 1;
+    private static final int GALLERY_REQUEST = 0;
 
-    private Uri imageUri = null;
-
+    Uri imageaUri = null;
     private DatabaseReference mDatabase;
 
     private StorageReference mStroaoge;
@@ -52,34 +53,32 @@ public class ProfileSetting extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                Toast.makeText(getApplication(), "isdadafifif", Toast.LENGTH_SHORT).show();
+
                 Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                startActivityForResult(Intent.createChooser(galleryIntent,"Complete Action Using"),GALLERY_REQUEST);
+                galleryIntent.setType("image/jpeg");
+ //               galleryIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                startActivityForResult(galleryIntent,GALLERY_REQUEST);
             }
         });
 
     }
-        @Override
-        public void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
 
-            if(requestCode == GALLERY_REQUEST && requestCode == RESULT_OK){
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-                Uri imageUri = data.getData();
-                CropImage.activity(imageUri)
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .start(this);
-            }
-            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+        Toast.makeText(getApplication(), "superup", Toast.LENGTH_SHORT).show();
 
-                if (resultCode == RESULT_OK) {
-                    Uri resultUri = result.getUri();
-                    bind.displayImg.setImageURI(resultUri);
-                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                    Exception error = result.getError();
-                    Log.e("error",error.toString());
-                }
-            }
-        } }
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Toast.makeText(getApplication(), "superdown", Toast.LENGTH_SHORT).show();
+
+        if (resultCode == GALLERY_REQUEST && requestCode == RESULT_OK){
+            Toast.makeText(getApplication(), "superin", Toast.LENGTH_SHORT).show();
+            imageaUri = data.getData();
+            bind.displayImg.setImageURI(imageaUri);
+
+        }
+    }
+}
 

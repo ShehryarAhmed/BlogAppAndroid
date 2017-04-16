@@ -10,12 +10,12 @@
 
     <ImageButton
         android:id="@+id/displayImg"
-        android:layout_width="150dp"
+        android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:scaleType="centerCrop"
         android:layout_margin="10dp"
         android:src="@drawable/default_image"
         android:background="@color/colorWhite"
+        android:scaleType="centerCrop"
         android:layout_gravity="center"/>
 
     <EditText
