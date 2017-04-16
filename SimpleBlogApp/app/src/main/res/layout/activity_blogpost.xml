@@ -26,7 +26,9 @@
         android:id="@+id/blog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:paddingTop="5dp"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
         android:text="Title..."
         android:textColor="@color/album_title"
         android:textSize="16sp" />
@@ -36,8 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/album_title_padding"
-            android:paddingLeft="@dimen/album_title_padding"
-            android:paddingRight="@dimen/album_title_padding"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
             android:textSize="@dimen/songs_count"
             android:inputType="textMultiLine"
             android:text="Description.."/>

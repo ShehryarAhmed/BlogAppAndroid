@@ -2,6 +2,7 @@ package com.example.android.simpleblogapp.userDetail;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class ProfileSetting extends AppCompatActivity {
 
@@ -36,7 +39,7 @@ public class ProfileSetting extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_setting);
+        bind = DataBindingUtil.setContentView(this,R.layout.activity_profile_setting);
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -49,22 +52,11 @@ public class ProfileSetting extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/jpeg");
+                galleryIntent.setType("image*//*");
                 galleryIntent.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
                 startActivityForResult(Intent.createChooser(galleryIntent,"Complete Action Using"),GALLERY_REQUEST);
             }
         });
-
-
-        bind.updatechanges.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-
-
 
     }
 
@@ -73,7 +65,9 @@ public class ProfileSetting extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
             imageUri = data.getData();
-            //bind.displayImg.setImageURI(imageUri);
+            CropImage.activity(imageUri)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .start(this);
         }
     }
 }
