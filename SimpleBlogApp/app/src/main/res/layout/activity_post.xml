@@ -20,24 +20,24 @@
 
     <EditText
         android:id="@+id/postTitle"
+        android:background="@drawable/edittext_outline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Title.."
         android:inputType="textPersonName"
-        android:background="@drawable/input_outline"
         android:textColor="@color/colorGray"
         android:padding="20dp"
        />
 
     <EditText
         android:id="@+id/postDesc"
+        android:background="@drawable/edittext_outline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Description"
         android:inputType="textMultiLine"
-        android:background="@drawable/input_outline"
         android:padding="20dp"
         android:textColor="@color/colorGray"
         />
@@ -47,7 +47,6 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:padding="10dp"
-    android:drawableBottom="@drawable/input_outline"
     android:text="Post"/>
 
 </LinearLayout>

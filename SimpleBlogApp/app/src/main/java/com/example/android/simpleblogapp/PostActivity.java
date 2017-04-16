@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Interpolator;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.android.simpleblogapp.databinding.binding_post;
@@ -26,21 +27,23 @@ public class PostActivity extends AppCompatActivity {
 
     binding_post bind_post;
 
-    private static final int GALLERY_REQUEST = 1;
-
-    private Uri imageUri = null;
-
     private DatabaseReference mDatabase;
 
     private StorageReference mStroaoge;
 
+
     private ProgressDialog mProgress;
 
+
+    private static final int GALLERY_REQUEST = 1;
+
+    private Uri imageUri = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bind_post = DataBindingUtil.setContentView(this, R.layout.activity_post);
+
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("BLogs");
         mStroaoge = FirebaseStorage.getInstance().getReference();
@@ -71,6 +74,8 @@ public class PostActivity extends AppCompatActivity {
         final String desc_val = bind_post.postDesc.getText().toString().trim();
         if (!TextUtils.isEmpty(title_val) && !TextUtils.isEmpty(desc_val) && imageUri != null) {
             StorageReference filepath = mStroaoge.child("Blogs_images").child(imageUri.getLastPathSegment());
+        mProgress.setMessage("Posting To Blog...");
+        mProgress.show();
 
             filepath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -88,9 +93,8 @@ public class PostActivity extends AppCompatActivity {
                     startActivity(new Intent(PostActivity.this, MainActivity.class));
                 }
             });
-        }
 
-    }
+    }}
 
 
     @Override
