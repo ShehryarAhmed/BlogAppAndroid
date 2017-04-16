@@ -40,18 +40,19 @@ public class PostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bind_post = DataBindingUtil.setContentView(this,R.layout.activity_post);
+        bind_post = DataBindingUtil.setContentView(this, R.layout.activity_post);
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("BLogs");
         mStroaoge = FirebaseStorage.getInstance().getReference();
 
-        mProgress = new ProgressDialog(this);        bind_post.postImage.setOnClickListener(new View.OnClickListener() {
+        mProgress = new ProgressDialog(this);
+        bind_post.postImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/jpeg");
-                galleryIntent.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
-                startActivityForResult(Intent.createChooser(galleryIntent,"Complete Action Using"),GALLERY_REQUEST);
+                galleryIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                startActivityForResult(Intent.createChooser(galleryIntent, "Complete Action Using"), GALLERY_REQUEST);
             }
         });
 
@@ -66,10 +67,10 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void sendPost() {
-       final String title_val = bind_post.postTitle.getText().toString().trim();
+        final String title_val = bind_post.postTitle.getText().toString().trim();
         final String desc_val = bind_post.postDesc.getText().toString().trim();
-        if (!TextUtils.isEmpty(title_val) && !TextUtils.isEmpty(desc_val) && imageUri != null){
-            StorageReference filepath= mStroaoge.child("Blogs_images").child(imageUri.getLastPathSegment());
+        if (!TextUtils.isEmpty(title_val) && !TextUtils.isEmpty(desc_val) && imageUri != null) {
+            StorageReference filepath = mStroaoge.child("Blogs_images").child(imageUri.getLastPathSegment());
 
             filepath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -78,13 +79,13 @@ public class PostActivity extends AppCompatActivity {
                     Toast.makeText(PostActivity.this, "post", Toast.LENGTH_SHORT).show();
                     DatabaseReference newPost = mDatabase.push();
 
-                    BlogPost post = new BlogPost(title_val,desc_val,downloadUri.toString());
+                    BlogPost post = new BlogPost(title_val, desc_val, downloadUri.toString());
 
                     newPost.setValue(post);
                     mProgress.dismiss();
 
 
-                    startActivity(new Intent(PostActivity.this,MainActivity.class));
+                    startActivity(new Intent(PostActivity.this, MainActivity.class));
                 }
             });
         }
@@ -95,7 +96,7 @@ public class PostActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
+        if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
             imageUri = data.getData();
             bind_post.postImage.setImageURI(imageUri);
         }
