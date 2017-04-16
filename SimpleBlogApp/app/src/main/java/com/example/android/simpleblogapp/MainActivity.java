@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.simpleblogapp.model.BlogPost;
+import com.example.android.simpleblogapp.userDetail.ProfileSetting;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -84,9 +85,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        int id = item.getItemId();
+        switch (id){
             case R.id.action_add_post:
                 startActivity(new Intent(MainActivity.this,PostActivity.class));
+                break;
+            case R.id.profile_setting:
+                startActivity(new Intent(MainActivity.this,ProfileSetting.class));
+                break;
+
         }
 
 

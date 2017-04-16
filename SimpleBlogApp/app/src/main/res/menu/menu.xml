@@ -11,4 +11,8 @@
         android:id="@+id/action_detail"
         android:title="@string/detail"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/profile_setting"
+        android:title="@string/profilesetting"
+        app:showAsAction="never"/>
 </menu>
