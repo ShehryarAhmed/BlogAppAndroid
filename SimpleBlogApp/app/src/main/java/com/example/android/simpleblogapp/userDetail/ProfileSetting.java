@@ -55,12 +55,13 @@ public class ProfileSetting extends AppCompatActivity {
 
                 Toast.makeText(getApplication(), "isdadafifif", Toast.LENGTH_SHORT).show();
 
-                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/jpeg");
- //               galleryIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                 startActivityForResult(galleryIntent,GALLERY_REQUEST);
             }
-        });
+        }
+        );
 
     }
 
@@ -73,12 +74,24 @@ public class ProfileSetting extends AppCompatActivity {
 
         Toast.makeText(getApplication(), "superdown", Toast.LENGTH_SHORT).show();
 
-        if (resultCode == GALLERY_REQUEST && requestCode == RESULT_OK){
-            Toast.makeText(getApplication(), "superin", Toast.LENGTH_SHORT).show();
-            imageaUri = data.getData();
-            bind.displayImg.setImageURI(imageaUri);
+      if (resultCode == GALLERY_REQUEST && requestCode == RESULT_OK) {
+          Toast.makeText(getApplication(), "superin", Toast.LENGTH_SHORT).show();
+          imageaUri = data.getData();
+          CropImage.activity(imageaUri)
+                  .setGuidelines(CropImageView.Guidelines.ON)
+                  .setAspectRatio(1,1)
+                  .start(this);}
 
-        }
+        //  bind.displayImg.setImageURI(imageaUri);
+
+      if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+          CropImage.ActivityResult result = CropImage.getActivityResult(data);
+          if(resultCode == RESULT_OK){
+              Uri resultUri = result.getUri();
+              bind.displayImg.setImageURI(resultUri);
+              
+          }
+      }
     }
 }
 
