@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.example.android.simpleblogapp.databinding.binding_post;
 import com.example.android.simpleblogapp.model.BlogPost;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -34,6 +36,8 @@ public class PostActivity extends AppCompatActivity {
 
     private ProgressDialog mProgress;
 
+    private FirebaseUser mCurrentUser;
+    private FirebaseAuth mFirebaseAuth;
 
     private static final int GALLERY_REQUEST = 1;
 
@@ -44,6 +48,9 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         bind_post = DataBindingUtil.setContentView(this, R.layout.activity_post);
 
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mFirebaseAuth.getCurrentUser();
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("BLogs");
         mStroaoge = FirebaseStorage.getInstance().getReference();
@@ -81,14 +88,14 @@ public class PostActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Uri downloadUri = taskSnapshot.getDownloadUrl();
-                    Toast.makeText(PostActivity.this, "post", Toast.LENGTH_SHORT).show();
+
                     DatabaseReference newPost = mDatabase.push();
 
                     BlogPost post = new BlogPost(title_val, desc_val, downloadUri.toString());
 
                     newPost.setValue(post);
-                    mProgress.dismiss();
 
+                    mProgress.dismiss();
 
                     startActivity(new Intent(PostActivity.this, MainActivity.class));
                 }

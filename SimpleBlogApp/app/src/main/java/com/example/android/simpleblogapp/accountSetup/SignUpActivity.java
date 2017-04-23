@@ -19,6 +19,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -28,16 +31,20 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class SignUpActivity extends AppCompatActivity {
     UserDetail mUserDetail;
-    FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth mFirebaseAuth;
+    private DatabaseReference mDBReference;
+
     private int GALLERY_REQUEST = 1;
 
     private Uri imageUri = null;
     DataBinding_activity_signup mDataBinding_activity_signup;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFirebaseAuth = FirebaseAuth.getInstance();
 
+        mDBReference = FirebaseDatabase.getInstance().getReference().child("Users");
 
 
         mDataBinding_activity_signup = DataBindingUtil.setContentView(this, R.layout.activity_sign_up);
@@ -49,13 +56,13 @@ public class SignUpActivity extends AppCompatActivity {
                 galleryIntent.setType("image/jpeg");
                 galleryIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
 
-                startActivityForResult(Intent.createChooser(galleryIntent,"Complet Action "),GALLERY_REQUEST);
+                startActivityForResult(Intent.createChooser(galleryIntent, "Complet Action "), GALLERY_REQUEST);
             }
         });
         mDataBinding_activity_signup.signupAlreadyMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SignUpActivity.this,LoginActivity.class);
+                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -65,49 +72,44 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //fname
                 String fname = mDataBinding_activity_signup.signupFirstName.getText().toString().trim();
-                if (TextUtils.isEmpty(fname))
-                {
+                if (TextUtils.isEmpty(fname)) {
                     Toast.makeText(SignUpActivity.this, getString(R.string.enter_first_name), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 String lname = mDataBinding_activity_signup.signupLastName.getText().toString().trim();
-                if (TextUtils.isEmpty(lname))
-                {
+                if (TextUtils.isEmpty(lname)) {
                     Toast.makeText(SignUpActivity.this, getString(R.string.enter_last_name), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 String email = mDataBinding_activity_signup.signupEmail.getText().toString().trim();
-                if (TextUtils.isEmpty(email))
-                {
+                if (TextUtils.isEmpty(email)) {
                     Toast.makeText(SignUpActivity.this, getString(R.string.enter_email), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 String password = mDataBinding_activity_signup.signupPassword.getText().toString().trim();
-                if (TextUtils.isEmpty(password))
-                {
+                if (TextUtils.isEmpty(password)) {
                     Toast.makeText(SignUpActivity.this, getString(R.string.enter_password), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (password.length()<6)
-                {
+                if (password.length() < 6) {
                     Toast.makeText(SignUpActivity.this, getString(R.string.minimum_password), Toast.LENGTH_SHORT).show();
                 }
-                mUserDetail = new UserDetail(fname,lname,email,password);
+                mUserDetail = new UserDetail(fname, lname, email, password);
                 mDataBinding_activity_signup.signupProgressbar.setVisibility(View.VISIBLE);
-                mFirebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                mFirebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         mDataBinding_activity_signup.signupProgressbar.setVisibility(View.GONE);
-                        if (!task.isSuccessful())
-                        {
+                        if (!task.isSuccessful()) {
                             Toast.makeText(SignUpActivity.this, getString(R.string.authentication_failed), Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            startActivity(new Intent(SignUpActivity.this,MainActivity.class));
+                        } else {
+                            DatabaseReference newusers = mDBReference.push();
+                            newusers.setValue(mUserDetail);
+
+                            startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                             finish();
                         }
                     }
@@ -117,7 +119,7 @@ public class SignUpActivity extends AppCompatActivity {
         mDataBinding_activity_signup.signupAlreadyMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SignUpActivity.this,LoginActivity.class));
+                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                 finish();
             }
         });
@@ -126,23 +128,22 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GALLERY_REQUEST && resultCode== RESULT_OK) {
+        if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
 
             imageUri = data.getData();
             CropImage.activity(imageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)
-                    .setAspectRatio(3,3)
+                    .setAspectRatio(3, 3)
                     .start(this);
         }
 
-        if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if(resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
                 mDataBinding_activity_signup.profileImage.setImageURI(resultUri);
 
-            }
-            else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+            } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
         }
