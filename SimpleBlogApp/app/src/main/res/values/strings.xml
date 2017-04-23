@@ -3,4 +3,25 @@
     <string name="add_icon">Add</string>
     <string name="detail">detail</string>
     <string name="profilesetting">ProfileSetting</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="press_login_button">Login</string>
+    <string name="press_signUp_button">SignUp</string>
+    <string name="forget_text">Foreget Your Password?</string>
+    <string name="forget_enter_your_email">Enter your e-mail below to reset your password</string>
+
+    <string name="press_foreget_password_button">Send</string>
+    <string name="enter_first_name">First Name</string>
+    <string name="enter_last_name">Last Name</string>
+
+    <string name="enter_last_email">Last Name</string>
+
+    <string name="signup_enter_email">Email</string>
+    <string name="signup_button">CREATE ACCOUNT</string>
+    <string name="signup_already_member">Already a member? Login</string>
+    <string name="minimum_password">Password low</string>
+    <string name="authentication_failed">Email and password wrong</string>
+    <string name="check_email">Check email</string>
+    <string name="failed_to_send_eamil">Failed to send email please try again</string>
+    <string name="Logout">Logout</string>
 </resources>

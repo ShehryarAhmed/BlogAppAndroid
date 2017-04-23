@@ -1,4 +1,4 @@
-package com.example.android.simpleblogapp.userDetail;
+package com.example.android.simpleblogapp.accountSetup;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

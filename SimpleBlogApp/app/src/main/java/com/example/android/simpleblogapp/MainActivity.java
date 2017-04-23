@@ -13,15 +13,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.simpleblogapp.accountSetup.LoginActivity;
 import com.example.android.simpleblogapp.model.BlogPost;
-import com.example.android.simpleblogapp.userDetail.ProfileSetting;
+import com.example.android.simpleblogapp.accountSetup.ProfileSetting;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
+
+    private FirebaseAuth mFirebaseAuth;
 
     private RecyclerView mRecyclerView;
 
@@ -33,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
         mDBReference = FirebaseDatabase.getInstance().getReference().child("BLogs");
 
@@ -92,6 +98,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.profile_setting:
                 startActivity(new Intent(MainActivity.this,ProfileSetting.class));
+                break;
+            case R.id.log_out:
+                mFirebaseAuth.signOut();
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                finish();
                 break;
 
         }
