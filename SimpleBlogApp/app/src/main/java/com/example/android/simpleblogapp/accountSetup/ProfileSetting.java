@@ -53,8 +53,6 @@ public class ProfileSetting extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(getApplication(), "isdadafifif", Toast.LENGTH_SHORT).show();
-
                 Intent galleryIntent = new Intent();
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/jpeg");
@@ -70,7 +68,7 @@ public class ProfileSetting extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
       if (requestCode == GALLERY_REQUEST && resultCode== RESULT_OK) {
-          Toast.makeText(getApplication(), "superin", Toast.LENGTH_SHORT).show();
+
           imageaUri = data.getData();
           CropImage.activity(imageaUri)
                   .setGuidelines(CropImageView.Guidelines.ON)

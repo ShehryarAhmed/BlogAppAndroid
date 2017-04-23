@@ -2,6 +2,7 @@ package com.example.android.simpleblogapp.accountSetup;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +19,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 /**
  * Created by android on 2/28/2017.
@@ -26,7 +29,9 @@ import com.google.firebase.auth.FirebaseAuth;
 public class SignUpActivity extends AppCompatActivity {
     UserDetail mUserDetail;
     FirebaseAuth mFirebaseAuth;
-    
+    private int GALLERY_REQUEST = 1;
+
+    private Uri imageUri = null;
     DataBinding_activity_signup mDataBinding_activity_signup;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +44,12 @@ public class SignUpActivity extends AppCompatActivity {
         mDataBinding_activity_signup.profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/jpeg");
+                galleryIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+
+                startActivityForResult(Intent.createChooser(galleryIntent,"Complet Action "),GALLERY_REQUEST);
             }
         });
         mDataBinding_activity_signup.signupAlreadyMember.setOnClickListener(new View.OnClickListener() {
@@ -110,5 +121,30 @@ public class SignUpActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_REQUEST && resultCode== RESULT_OK) {
+
+            imageUri = data.getData();
+            CropImage.activity(imageUri)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(3,3)
+                    .start(this);
+        }
+
+        if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if(resultCode == RESULT_OK){
+                Uri resultUri = result.getUri();
+                mDataBinding_activity_signup.profileImage.setImageURI(resultUri);
+
+            }
+            else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+                Exception error = result.getError();
+            }
+        }
     }
 }
