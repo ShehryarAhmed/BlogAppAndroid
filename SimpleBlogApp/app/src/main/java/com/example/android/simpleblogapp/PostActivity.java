@@ -108,11 +108,10 @@ public class PostActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-
+                            String username = dataSnapshot.child("fname").getValue().toString();
                             final BlogPost post = new BlogPost(
                                     title_val, desc_val, downloadUri.toString(),mFirebaseAuth.getCurrentUser().getUid().toString(),
-                                    "");
-//                            newPost1.setValue(dataSnapshot.child("fname").getValue());
+                                    username);
                             newPost.setValue(post).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
