@@ -36,9 +36,11 @@ public class PostActivity extends AppCompatActivity {
 
     private ProgressDialog mProgress;
 
+    private FirebaseAuth mFirebaseAuth;
+
     private FirebaseUser mCurrentUser;
 
-    private FirebaseAuth mFirebaseAuth;
+    private DatabaseReference mdatabaseUser;
 
     private static final int GALLERY_REQUEST = 1;
 
@@ -52,6 +54,7 @@ public class PostActivity extends AppCompatActivity {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mCurrentUser = mFirebaseAuth.getCurrentUser();
+        mdatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("BLogs");
         mStroaoge = FirebaseStorage.getInstance().getReference();

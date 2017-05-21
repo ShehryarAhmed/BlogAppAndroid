@@ -39,6 +39,13 @@ public class UserDetail {
         this.email = email;
         this.password = password;
         this.userID = Uid;
+    }public UserDetail(String fname, String lname, String email, String password) {
+
+        this.fname = fname;
+        this.lname = lname;
+        this.email = email;
+        this.password = password;
+
     }
 
     public UserDetail(String email, String password) {
