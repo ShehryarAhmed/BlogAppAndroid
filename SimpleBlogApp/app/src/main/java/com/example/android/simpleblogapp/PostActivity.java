@@ -37,6 +37,7 @@ public class PostActivity extends AppCompatActivity {
     private ProgressDialog mProgress;
 
     private FirebaseUser mCurrentUser;
+
     private FirebaseAuth mFirebaseAuth;
 
     private static final int GALLERY_REQUEST = 1;
@@ -81,8 +82,8 @@ public class PostActivity extends AppCompatActivity {
         final String desc_val = bind_post.postDesc.getText().toString().trim();
         if (!TextUtils.isEmpty(title_val) && !TextUtils.isEmpty(desc_val) && imageUri != null) {
             StorageReference filepath = mStroaoge.child("Blogs_images").child(imageUri.getLastPathSegment());
-        mProgress.setMessage("Posting To Blog...");
-        mProgress.show();
+            mProgress.setMessage("Posting To Blog...");
+            mProgress.show();
 
             filepath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -91,7 +92,7 @@ public class PostActivity extends AppCompatActivity {
 
                     DatabaseReference newPost = mDatabase.push();
 
-                    BlogPost post = new BlogPost(title_val, desc_val, downloadUri.toString());
+                    BlogPost post = new BlogPost(title_val, desc_val, downloadUri.toString(),mFirebaseAuth.getCurrentUser().getUid().toString());
 
                     newPost.setValue(post);
 
@@ -101,7 +102,8 @@ public class PostActivity extends AppCompatActivity {
                 }
             });
 
-    }}
+        }
+    }
 
 
     @Override

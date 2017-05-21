@@ -9,15 +9,19 @@ public class BlogPost {
     private String title;
     private String description;
     private String thumnail;
+    private String userID;
 
     public BlogPost() {
     }
 
-    public BlogPost(String title, String description, String thumnail) {
+    public BlogPost(String title, String description, String thumnail,String uID) {
         this.title = title;
         this.description = description;
         this.thumnail = thumnail;
+        this.userID = uID;
     }
+
+    public String getUserID() { return userID;  }
 
     public String getTitle() {  return title;    }
 
