@@ -101,7 +101,7 @@ public class PostActivity extends AppCompatActivity {
 
                     final DatabaseReference newPost = mDatabase.push();
 
-                    final DatabaseReference newPost1 = mDatabase.push();
+
 
 
                     mdatabaseUser.addValueEventListener(new ValueEventListener() {
@@ -112,7 +112,7 @@ public class PostActivity extends AppCompatActivity {
                             final BlogPost post = new BlogPost(
                                     title_val, desc_val, downloadUri.toString(),mFirebaseAuth.getCurrentUser().getUid().toString(),
                                     "");
-                            newPost1.setValue(dataSnapshot.child("fname").getValue());
+//                            newPost1.setValue(dataSnapshot.child("fname").getValue());
                             newPost.setValue(post).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

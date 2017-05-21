@@ -70,10 +70,10 @@ public class SignUpActivity extends AppCompatActivity {
         mDataBinding_activity_signup.signupCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //fname
-                String fname = mDataBinding_activity_signup.signupFirstName.getText().toString().trim();
-                if (TextUtils.isEmpty(fname)) {
                     Toast.makeText(SignUpActivity.this, getString(R.string.enter_first_name), Toast.LENGTH_SHORT).show();
+                    //fname
+                    String fname = mDataBinding_activity_signup.signupFirstName.getText().toString().trim();
+                    if (TextUtils.isEmpty(fname)) {
                     return;
                 }
 
@@ -97,17 +97,20 @@ public class SignUpActivity extends AppCompatActivity {
                 if (password.length() < 6) {
                     Toast.makeText(SignUpActivity.this, getString(R.string.minimum_password), Toast.LENGTH_SHORT).show();
                 }
+
                 mUserDetail = new UserDetail(fname, lname, email, password);
                 mDataBinding_activity_signup.signupProgressbar.setVisibility(View.VISIBLE);
                 mFirebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        final DatabaseReference currentUserDb = mDBReference.child(mFirebaseAuth.getCurrentUser().getUid().toString());
+
                         mDataBinding_activity_signup.signupProgressbar.setVisibility(View.GONE);
                         if (!task.isSuccessful()) {
                             Toast.makeText(SignUpActivity.this, getString(R.string.authentication_failed), Toast.LENGTH_SHORT).show();
                         } else {
-                            DatabaseReference newusers = mDBReference.push();
-                            newusers.setValue(mUserDetail);
+
+                            currentUserDb.setValue(mUserDetail);
 
                             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                             finish();
