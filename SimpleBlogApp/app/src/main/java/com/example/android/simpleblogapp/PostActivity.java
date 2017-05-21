@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.storage.StorageVolume;
+import android.support.annotation.NonNull;
 import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,11 +17,16 @@ import android.widget.Toast;
 
 import com.example.android.simpleblogapp.databinding.binding_post;
 import com.example.android.simpleblogapp.model.BlogPost;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -91,17 +97,43 @@ public class PostActivity extends AppCompatActivity {
             filepath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Uri downloadUri = taskSnapshot.getDownloadUrl();
+                    final Uri downloadUri = taskSnapshot.getDownloadUrl();
 
-                    DatabaseReference newPost = mDatabase.push();
+                    final DatabaseReference newPost = mDatabase.push();
 
-                    BlogPost post = new BlogPost(title_val, desc_val, downloadUri.toString(),mFirebaseAuth.getCurrentUser().getUid().toString());
+                    final DatabaseReference newPost1 = mDatabase.push();
 
-                    newPost.setValue(post);
 
+                    mdatabaseUser.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                            final BlogPost post = new BlogPost(
+                                    title_val, desc_val, downloadUri.toString(),mFirebaseAuth.getCurrentUser().getUid().toString(),
+                                    "");
+                            newPost1.setValue(dataSnapshot.child("fname").getValue());
+                            newPost.setValue(post).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        startActivity(new Intent(PostActivity.this, MainActivity.class));
+                                    }
+                                else{
+                                        Toast.makeText(PostActivity.this, "Some Error to Posting Blogs...", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                     mProgress.dismiss();
 
-                    startActivity(new Intent(PostActivity.this, MainActivity.class));
                 }
             });
 

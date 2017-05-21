@@ -10,20 +10,30 @@ public class BlogPost {
     private String description;
     private String thumnail;
     private String userID;
+    private String userName;
 
     public BlogPost() {
     }
 
-    public BlogPost(String title, String description, String thumnail,String uID) {
+    public BlogPost(String title, String description, String thumnail, String uID, String uname) {
         this.title = title;
         this.description = description;
         this.thumnail = thumnail;
         this.userID = uID;
+        this.userName = uname;
     }
 
-    public String getUserID() { return userID;  }
+    public String getUserName() {
+        return userName;
+    }
 
-    public String getTitle() {  return title;    }
+    public String getUserID() {
+        return userID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
 
     public void setTitle(String title) {
         this.title = title;
