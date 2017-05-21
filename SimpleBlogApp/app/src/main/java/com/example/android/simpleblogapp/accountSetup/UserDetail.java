@@ -10,6 +10,9 @@ public class UserDetail {
     private String lname;
     private String email;
     private String password;
+    private String userID;
+
+
 
     public String getFname() {
         return fname;
@@ -23,17 +26,19 @@ public class UserDetail {
         return email;
     }
 
+    public String getUserID() { return userID; }
 
     public String getPassword() {
         return password;
     }
 
-    public UserDetail(String fname, String lname, String email, String password) {
+    public UserDetail(String fname, String lname, String email, String password,String Uid) {
 
         this.fname = fname;
         this.lname = lname;
         this.email = email;
         this.password = password;
+        this.userID = Uid;
     }
 
     public UserDetail(String email, String password) {
