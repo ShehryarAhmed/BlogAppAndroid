@@ -6,6 +6,7 @@ package com.example.android.simpleblogapp.accountSetup;
  */
 
 public class UserDetail {
+    private String profPic;
     private String fname;
     private String lname;
     private String email;
@@ -39,7 +40,8 @@ public class UserDetail {
         this.email = email;
         this.password = password;
         this.userID = Uid;
-    }public UserDetail(String fname, String lname, String email, String password) {
+    }
+    public UserDetail(String fname, String lname, String email, String password) {
 
         this.fname = fname;
         this.lname = lname;
@@ -51,5 +53,14 @@ public class UserDetail {
     public UserDetail(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public UserDetail(String profPic, String fname, String lname, String email, String password, String userID) {
+        this.profPic = profPic;
+        this.fname = fname;
+        this.lname = lname;
+        this.email = email;
+        this.password = password;
+        this.userID = userID;
     }
 }

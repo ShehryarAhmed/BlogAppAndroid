@@ -10,7 +10,7 @@
 
     <ImageButton
         android:id="@+id/displayImg"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="150dp"
         android:layout_margin="10dp"
         android:src="@drawable/default_image"
