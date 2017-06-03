@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(BlogsViewHolder blogsViewHolder, BlogPost blogPost, int i) {
 
-                blogsViewHolder.setTitleDescImage(getApplicationContext(),blogPost.getTitle(),blogPost.getDescription(),blogPost.getThumnail());
+                blogsViewHolder.getPost(getApplicationContext(),blogPost.getTitle(),blogPost.getDescription(),blogPost.getThumnail(),blogPost.getUserName(),blogPost.getProfile_img());
             }
         };
         mRecyclerView.setAdapter(firebaseRecyclerAdapter);
@@ -70,7 +70,12 @@ public class MainActivity extends AppCompatActivity {
         mView = itemView;
         }
 
-        public void setTitleDescImage(Context ctx, String title, String desc, String image){
+        public void getPost(Context ctx, String title, String desc, String image,String uname,String prof_img){
+
+            TextView username = (TextView) itemView.findViewById(R.id.username);
+            username.setText(""+uname);
+            ImageView prof_image = (ImageView) itemView.findViewById(R.id.profile_image);
+            Picasso.with(ctx).load(prof_img).into(prof_image);
             TextView titleView = (TextView) itemView.findViewById(R.id.blog_title);
             titleView.setText(""+title);
             TextView descView = (TextView) itemView.findViewById(R.id.blog_desc);

@@ -7,6 +7,7 @@ package com.example.android.simpleblogapp.model;
 public class BlogPost {
 
     private String title;
+    private String profile_img;
     private String description;
     private String thumnail;
     private String userID;
@@ -15,12 +16,18 @@ public class BlogPost {
     public BlogPost() {
     }
 
-    public BlogPost(String title, String description, String thumnail, String uID, String uname) {
+    public String getProfile_img() {
+        return profile_img;
+    }
+
+    public BlogPost(String title, String description, String thumnail, String uID, String uname, String prof_img) {
         this.title = title;
         this.description = description;
         this.thumnail = thumnail;
         this.userID = uID;
         this.userName = uname;
+        this.profile_img = prof_img;
+
     }
 
     public String getUserName() {

@@ -62,7 +62,6 @@ public class SignUpActivity extends AppCompatActivity {
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/jpeg");
                 galleryIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-
                 startActivityForResult(Intent.createChooser(galleryIntent, "Complet Action "), GALLERY_REQUEST);
             }
         });
@@ -79,6 +78,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View view) {
                     final String fname = mDataBinding_activity_signup.signupFirstName.getText().toString().trim();
                     if (TextUtils.isEmpty(fname)) {
+                        Toast.makeText(SignUpActivity.this, getString(R.string.enter_last_name), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -102,19 +102,14 @@ public class SignUpActivity extends AppCompatActivity {
                 if (password.length() < 6) {
                     Toast.makeText(SignUpActivity.this, getString(R.string.minimum_password), Toast.LENGTH_SHORT).show();
                 }
+                if (imageUri != null) {
+                    Toast.makeText(SignUpActivity.this, getString(R.string.please_select_img), Toast.LENGTH_SHORT).show();
+                }
+
                 //profile image
 
-                StorageReference filepath = mStroaoge.child("Users_profliePics").child(imageUri.getLastPathSegment());
-                filepath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        final Uri downloadUri = taskSnapshot.getDownloadUrl();
+                final StorageReference filepath = mStroaoge.child("Users_profliePics").child(imageUri.getLastPathSegment());
 
-                        final DatabaseReference currentUserDb = mDBReference.child(mFirebaseAuth.getCurrentUser().getUid().toString());
-
-
-
-                mUserDetail = new UserDetail(downloadUri.toString(),fname, lname, email, password,mFirebaseAuth.getCurrentUser().getUid().toString());
                 mDataBinding_activity_signup.signupProgressbar.setVisibility(View.VISIBLE);
                 mFirebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -124,19 +119,27 @@ public class SignUpActivity extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             Toast.makeText(SignUpActivity.this, getString(R.string.authentication_failed), Toast.LENGTH_SHORT).show();
                         } else {
-
-                            currentUserDb.setValue(mUserDetail);
-
-                            startActivity(new Intent(SignUpActivity.this, MainActivity.class));
-                            finish();
+                            filepath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    final String uID = mFirebaseAuth.getCurrentUser().getUid().toString();
+                                    final DatabaseReference currentUserDb = mDBReference.child(uID);
+                                    final Uri downloadUri = taskSnapshot.getDownloadUrl();
+                                    final String downloadImageUri = downloadUri.toString();
+                                    mUserDetail = new UserDetail(downloadImageUri,fname, lname, email, password,uID);
+                                    currentUserDb.setValue(mUserDetail);
+                                    startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                                    finish();
+                                }
+                            });
                         }
+
                     }
                 });
             }
         });
 
-            }
-        });        mDataBinding_activity_signup.signupAlreadyMember.setOnClickListener(new View.OnClickListener() {
+       mDataBinding_activity_signup.signupAlreadyMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(SignUpActivity.this, LoginActivity.class));

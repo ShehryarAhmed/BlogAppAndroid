@@ -33,26 +33,8 @@ public class UserDetail {
         return password;
     }
 
-    public UserDetail(String fname, String lname, String email, String password,String Uid) {
-
-        this.fname = fname;
-        this.lname = lname;
-        this.email = email;
-        this.password = password;
-        this.userID = Uid;
-    }
-    public UserDetail(String fname, String lname, String email, String password) {
-
-        this.fname = fname;
-        this.lname = lname;
-        this.email = email;
-        this.password = password;
-
-    }
-
-    public UserDetail(String email, String password) {
-        this.email = email;
-        this.password = password;
+    public String getProfPic() {
+        return profPic;
     }
 
     public UserDetail(String profPic, String fname, String lname, String email, String password, String userID) {

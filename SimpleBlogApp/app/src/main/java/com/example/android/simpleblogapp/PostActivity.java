@@ -63,6 +63,7 @@ public class PostActivity extends AppCompatActivity {
         mdatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("BLogs");
+
         mStroaoge = FirebaseStorage.getInstance().getReference();
 
         mProgress = new ProgressDialog(this);
@@ -107,9 +108,10 @@ public class PostActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
                             String username = dataSnapshot.child("fname").getValue().toString();
+                            String prof_img = dataSnapshot.child("profPic").getValue().toString();
                             final BlogPost post = new BlogPost(
                                     title_val, desc_val, downloadUri.toString(), mFirebaseAuth.getCurrentUser().getUid().toString(),
-                                    username);
+                                    username,prof_img);
                             newPost.setValue(post).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
