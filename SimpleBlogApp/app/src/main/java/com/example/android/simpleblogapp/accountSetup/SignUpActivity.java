@@ -16,12 +16,16 @@ import com.example.android.simpleblogapp.MainActivity;
 import com.example.android.simpleblogapp.R;
 import com.example.android.simpleblogapp.databinding.DataBinding_activity_signup;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -33,6 +37,8 @@ public class SignUpActivity extends AppCompatActivity {
     UserDetail mUserDetail;
     private FirebaseAuth mFirebaseAuth;
     private DatabaseReference mDBReference;
+    private StorageReference mStroaoge;
+
 
     private int GALLERY_REQUEST = 1;
 
@@ -45,6 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         mDBReference = FirebaseDatabase.getInstance().getReference().child("Users");
+        mStroaoge = FirebaseStorage.getInstance().getReference();
 
 
         mDataBinding_activity_signup = DataBindingUtil.setContentView(this, R.layout.activity_sign_up);
@@ -70,26 +77,24 @@ public class SignUpActivity extends AppCompatActivity {
         mDataBinding_activity_signup.signupCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    Toast.makeText(SignUpActivity.this, getString(R.string.enter_first_name), Toast.LENGTH_SHORT).show();
-                    //fname
-                    String fname = mDataBinding_activity_signup.signupFirstName.getText().toString().trim();
+                    final String fname = mDataBinding_activity_signup.signupFirstName.getText().toString().trim();
                     if (TextUtils.isEmpty(fname)) {
                     return;
                 }
 
-                String lname = mDataBinding_activity_signup.signupLastName.getText().toString().trim();
+                final String lname = mDataBinding_activity_signup.signupLastName.getText().toString().trim();
                 if (TextUtils.isEmpty(lname)) {
                     Toast.makeText(SignUpActivity.this, getString(R.string.enter_last_name), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                String email = mDataBinding_activity_signup.signupEmail.getText().toString().trim();
+                final String email = mDataBinding_activity_signup.signupEmail.getText().toString().trim();
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(SignUpActivity.this, getString(R.string.enter_email), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                String password = mDataBinding_activity_signup.signupPassword.getText().toString().trim();
+                final String password = mDataBinding_activity_signup.signupPassword.getText().toString().trim();
                 if (TextUtils.isEmpty(password)) {
                     Toast.makeText(SignUpActivity.this, getString(R.string.enter_password), Toast.LENGTH_SHORT).show();
                     return;
@@ -97,13 +102,23 @@ public class SignUpActivity extends AppCompatActivity {
                 if (password.length() < 6) {
                     Toast.makeText(SignUpActivity.this, getString(R.string.minimum_password), Toast.LENGTH_SHORT).show();
                 }
+                //profile image
 
-                mUserDetail = new UserDetail(fname, lname, email, password);
+                StorageReference filepath = mStroaoge.child("Users_profliePics").child(imageUri.getLastPathSegment());
+                filepath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        final Uri downloadUri = taskSnapshot.getDownloadUrl();
+
+                        final DatabaseReference currentUserDb = mDBReference.child(mFirebaseAuth.getCurrentUser().getUid().toString());
+
+
+
+                mUserDetail = new UserDetail(downloadUri.toString(),fname, lname, email, password,mFirebaseAuth.getCurrentUser().getUid().toString());
                 mDataBinding_activity_signup.signupProgressbar.setVisibility(View.VISIBLE);
                 mFirebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        final DatabaseReference currentUserDb = mDBReference.child(mFirebaseAuth.getCurrentUser().getUid().toString());
 
                         mDataBinding_activity_signup.signupProgressbar.setVisibility(View.GONE);
                         if (!task.isSuccessful()) {
@@ -119,7 +134,9 @@ public class SignUpActivity extends AppCompatActivity {
                 });
             }
         });
-        mDataBinding_activity_signup.signupAlreadyMember.setOnClickListener(new View.OnClickListener() {
+
+            }
+        });        mDataBinding_activity_signup.signupAlreadyMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(SignUpActivity.this, LoginActivity.class));

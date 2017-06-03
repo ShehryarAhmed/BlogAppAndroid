@@ -102,23 +102,20 @@ public class PostActivity extends AppCompatActivity {
                     final DatabaseReference newPost = mDatabase.push();
 
 
-
-
                     mdatabaseUser.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
                             String username = dataSnapshot.child("fname").getValue().toString();
                             final BlogPost post = new BlogPost(
-                                    title_val, desc_val, downloadUri.toString(),mFirebaseAuth.getCurrentUser().getUid().toString(),
+                                    title_val, desc_val, downloadUri.toString(), mFirebaseAuth.getCurrentUser().getUid().toString(),
                                     username);
                             newPost.setValue(post).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
+                                    if (task.isSuccessful()) {
                                         startActivity(new Intent(PostActivity.this, MainActivity.class));
-                                    }
-                                else{
+                                    } else {
                                         Toast.makeText(PostActivity.this, "Some Error to Posting Blogs...", Toast.LENGTH_SHORT).show();
                                     }
                                 }
