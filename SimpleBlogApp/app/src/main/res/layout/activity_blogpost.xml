@@ -81,5 +81,13 @@
             android:textSize="@dimen/songs_count"
             android:inputType="textMultiLine"
             android:text="Description.."/>
+
+    <ImageButton
+
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:src="@drawable/thumb_up" />
 </LinearLayout>
     </android.support.v7.widget.CardView>
