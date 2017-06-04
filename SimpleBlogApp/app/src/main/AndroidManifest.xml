@@ -23,6 +23,8 @@
         <activity android:name=".accountSetup.ForgotActivity"></activity>
         <activity android:name=".accountSetup.ProfileSetting" />
         <activity android:name=".PostActivity" />
+        <activity android:name=".SinglePostActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat"/>
     </application>
