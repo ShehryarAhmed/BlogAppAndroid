@@ -57,7 +57,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(BlogsViewHolder blogsViewHolder, BlogPost blogPost, int i) {
 
+                final String post_id = getRef(i).getKey().toString();
                 blogsViewHolder.getPost(getApplicationContext(),
+
                         blogPost.getTitle(),
                         blogPost.getDescription(),
                         blogPost.getThumnail(),
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                         blogsViewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Toast.makeText(MainActivity.this, "Click Click...", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, post_id, Toast.LENGTH_SHORT).show();
                             }
                         });
             }
