@@ -1,5 +1,10 @@
 package com.example.android.simpleblogapp.model;
 
+import com.google.firebase.database.ServerValue;
+
+import java.util.HashMap;
+import java.util.Objects;
+
 /**
  * Created by android on 4/2/2017.
  */
@@ -12,7 +17,7 @@ public class BlogPost {
     private String thumnail;
     private String userID;
     private String userName;
-    private String
+    private HashMap<String,Object> postdate;
 
     public BlogPost() {
     }
@@ -21,14 +26,16 @@ public class BlogPost {
         return profile_img;
     }
 
-    public BlogPost(String title, String description, String thumnail, String uID, String uname, String prof_img) {
+    public BlogPost(String title, String description, String thumnail, String uID, String uname, String prof_img, HashMap<String,Object> postdated) {
         this.title = title;
         this.description = description;
         this.thumnail = thumnail;
         this.userID = uID;
         this.userName = uname;
         this.profile_img = prof_img;
-
+        this.postdate = postdated;
+        HashMap<String, Object> timestampNow = new HashMap<>();
+        timestampNow.put("postdate", ServerValue.TIMESTAMP);
     }
 
     public String getUserName() {
