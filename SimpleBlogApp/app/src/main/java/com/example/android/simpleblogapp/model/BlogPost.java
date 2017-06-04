@@ -12,6 +12,7 @@ public class BlogPost {
     private String thumnail;
     private String userID;
     private String userName;
+    private String
 
     public BlogPost() {
     }
