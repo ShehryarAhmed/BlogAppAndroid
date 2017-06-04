@@ -17,8 +17,8 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/log_out"
-        android:title="@string/Logout"
+        android:id="@+id/mypost"
+        android:title="@string/myposts"
         app:showAsAction="never"/>
 
     <item

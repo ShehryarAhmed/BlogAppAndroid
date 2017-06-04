@@ -25,4 +25,5 @@
     <string name="failed_to_send_eamil">Failed to send email please try again</string>
     <string name="Logout">Logout</string>
     <string name="please_select_img">please select Image</string>
+    <string name="myposts">My Posts</string>
 </resources>

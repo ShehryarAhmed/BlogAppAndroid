@@ -211,6 +211,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.profile_setting:
                 startActivity(new Intent(MainActivity.this,ProfileSetting.class));
                 break;
+            case R.id.mypost:
+                startActivity(new Intent(MainActivity.this,SingleUserPosts.class));
+                finish();
+                break;
             case R.id.log_out:
                 mFirebaseAuth.signOut();
                 startActivity(new Intent(MainActivity.this,LoginActivity.class));
