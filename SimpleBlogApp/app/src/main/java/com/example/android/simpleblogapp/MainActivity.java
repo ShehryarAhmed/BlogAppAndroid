@@ -24,6 +24,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference mUserDB;
     private DatabaseReference mDBLikes;
 
+    private Query mQueryCurrentUser;
+
     private boolean mProcesslike = false;
 
     @Override
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         mUserDB = FirebaseDatabase.getInstance().getReference().child("Users");
         mDBLikes = FirebaseDatabase.getInstance().getReference().child("Likes");
 
+        
         mDBReference.keepSynced(true);
         mUserDB.keepSynced(true);
         mDBLikes.keepSynced(true);
