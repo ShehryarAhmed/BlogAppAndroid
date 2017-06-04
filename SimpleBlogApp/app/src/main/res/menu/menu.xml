@@ -20,4 +20,9 @@
         android:id="@+id/log_out"
         android:title="@string/Logout"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/log_out"
+        android:title="@string/Logout"
+        app:showAsAction="never"/>
 </menu>
