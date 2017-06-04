@@ -78,14 +78,21 @@ public class MainActivity extends AppCompatActivity {
     private static class BlogsViewHolder extends RecyclerView.ViewHolder{
 
         View mView;
+        TextView username = (TextView) itemView.findViewById(R.id.username);
         public BlogsViewHolder(View itemView) {
             super(itemView);
         mView = itemView;
+            username.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(view.getContext(), "Textview", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         public void getPost(Context ctx, String title, String desc, String image,String uname,String prof_img){
 
-            TextView username = (TextView) itemView.findViewById(R.id.username);
+
             username.setText(""+uname);
             ImageView prof_image = (ImageView) itemView.findViewById(R.id.profile_image);
             Picasso.with(ctx).load(prof_img).into(prof_image);
