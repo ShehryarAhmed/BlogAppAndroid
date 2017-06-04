@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.simpleblogapp.accountSetup.LoginActivity;
 import com.example.android.simpleblogapp.model.BlogPost;
@@ -56,7 +57,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(BlogsViewHolder blogsViewHolder, BlogPost blogPost, int i) {
 
-                blogsViewHolder.getPost(getApplicationContext(),blogPost.getTitle(),blogPost.getDescription(),blogPost.getThumnail(),blogPost.getUserName(),blogPost.getProfile_img());
+                blogsViewHolder.getPost(getApplicationContext(),
+                        blogPost.getTitle(),
+                        blogPost.getDescription(),
+                        blogPost.getThumnail(),
+                        blogPost.getUserName(),
+                        blogPost.getProfile_img());
+
+                        blogsViewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(MainActivity.this, "Click Click...", Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         };
         mRecyclerView.setAdapter(firebaseRecyclerAdapter);

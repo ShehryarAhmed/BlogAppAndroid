@@ -26,10 +26,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.Date;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -109,9 +112,13 @@ public class PostActivity extends AppCompatActivity {
 
                             String username = dataSnapshot.child("fname").getValue().toString();
                             String prof_img = dataSnapshot.child("profPic").getValue().toString();
+                            //Date
+
+                            Date date = new Date();
+
                             final BlogPost post = new BlogPost(
                                     title_val, desc_val, downloadUri.toString(), mFirebaseAuth.getCurrentUser().getUid().toString(),
-                                    username,prof_img);
+                                    username,prof_img, ServerValue.TIMESTAMP.toString());
                             newPost.setValue(post).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
