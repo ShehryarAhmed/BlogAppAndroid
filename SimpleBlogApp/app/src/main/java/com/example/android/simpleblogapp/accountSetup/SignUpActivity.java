@@ -165,6 +165,7 @@ public class SignUpActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
                 mDataBinding_activity_signup.profileImage.setImageURI(resultUri);
+                imageUri =resultUri;    
 
             } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
